@@ -1,0 +1,4 @@
+{% extends "base.html" %}
+{% block title %}Error {{ code }} · CloudSentinel{% endblock %}
+{% block heading %}Request error{% endblock %}
+{% block content %}<div class="error-panel"><div class="error-code">{{ code }}</div><h1>Request could not be completed</h1><p>{{ message }}</p><a class="btn btn-primary mt-3" href="{{ url_for('dashboard') if session.get('user_id') else url_for('login') }}">Return</a></div>{% endblock %}

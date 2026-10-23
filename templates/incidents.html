@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}Incidents · CloudSentinel{% endblock %}
+{% block heading %}Incident register{% endblock %}
+{% block content %}
+<div class="welcome-row"><div><h1>Incidents</h1><p>Search, review, and track security events.</p></div><a class="btn btn-primary" href="{{ url_for('new_incident') }}">＋ New incident</a></div>
+<form class="filter-bar" method="get" role="search">
+  <input class="form-control search-input" name="q" value="{{ q }}" placeholder="Search incidents..." aria-label="Search incidents">
+  <select class="form-select" name="severity" aria-label="Filter by severity"><option value="">All severities</option>{% for s in severities %}<option value="{{ s }}" {% if severity==s %}selected{% endif %}>{{ s }}</option>{% endfor %}</select>
+  <select class="form-select" name="status" aria-label="Filter by status"><option value="">All statuses</option>{% for s in statuses %}<option value="{{ s }}" {% if status==s %}selected{% endif %}>{{ s }}</option>{% endfor %}</select>
+  <select class="form-select" name="category" aria-label="Filter by category"><option value="">All categories</option>{% for c in categories %}<option value="{{ c }}" {% if category==c %}selected{% endif %}>{{ c }}</option>{% endfor %}</select>
+  <select class="form-select" name="assignee" aria-label="Filter by assignee"><option value="">All assignees</option>{% for user in analysts %}<option value="{{ user.id }}" {% if assignee|string==user.id|string %}selected{% endif %}>{{ user.username }}</option>{% endfor %}</select>
+  <button class="btn btn-outline-light">Filter</button><a class="btn btn-quiet" href="{{ url_for('incidents') }}">Reset</a>
+</form>
+<div class="table-panel"><div class="table-responsive"><table class="table align-middle mb-0"><thead><tr><th>Incident</th><th>Category</th><th>Severity</th><th>Status</th><th>Reporter</th><th>Assignee</th><th>Updated</th></tr></thead><tbody>
+{% for item in incidents %}<tr><td><a class="incident-link" href="{{ url_for('incident_detail', incident_id=item.id) }}">CS-{{ '%04d'|format(item.id) }} · {{ item.title }}</a><small class="cell-sub">{{ item.description|truncate(80) }}</small></td><td>{{ item.category }}</td><td><span class="severity severity-{{ item.severity|lower }}">{{ item.severity }}</span></td><td><span class="status status-{{ item.status|lower|replace(' ','-') }}">{{ item.status }}</span></td><td>{{ item.reporter_name }}</td><td>{{ item.assignee_name or 'Unassigned' }}</td><td>{{ item.updated_at }}</td></tr>
+{% else %}<tr><td colspan="7" class="empty-state">No matching incidents found.</td></tr>{% endfor %}
+</tbody></table></div></div>
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}Users · CloudSentinel{% endblock %}
+{% block heading %}User management{% endblock %}
+{% block content %}
+<div class="welcome-row"><div><h1>User management</h1><p>Create accounts and manage roles and access. Administrator access only.</p></div></div>
+<div class="detail-grid"><div class="form-panel"><h2>Create user</h2><form method="post">
+  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+  <label class="form-label mt-3" for="username">Username</label><input class="form-control" id="username" name="username" minlength="3" maxlength="80" pattern="[A-Za-z0-9_.-]+" required autocomplete="off">
+  <label class="form-label mt-3" for="password">Initial password</label><input class="form-control" id="password" type="password" name="password" minlength="12" maxlength="128" required autocomplete="new-password">
+  <label class="form-label mt-3" for="role">Role</label><select class="form-select" id="role" name="role"><option value="analyst">Analyst</option><option value="admin">Administrator</option></select>
+  <button class="btn btn-primary mt-4">Create account</button></form></div>
+<div class="form-panel"><h2>Role permissions</h2><div class="permission-row"><span class="role-pill admin-pill">Administrator</span><p>Manage accounts, view audit records, and manage incidents and evidence.</p></div><div class="permission-row"><span class="role-pill analyst-pill">Analyst</span><p>Create, search, assign, and update incidents; upload and download evidence.</p></div><p class="muted small mt-3">Passwords are hashed before storage; password hashes are never shown.</p></div></div>
+<div class="section-heading mt-4"><div><h2>Registered users</h2><p>{{ users|length }} account(s)</p></div></div><div class="table-panel"><div class="table-responsive"><table class="table mb-0"><thead><tr><th>ID</th><th>Username</th><th>Role</th><th>Active</th><th>Created</th><th>Update access</th></tr></thead><tbody>
+{% for user in users %}<tr><td>{{ user.id }}</td><td>{{ user.username }}</td><td><span class="role-pill {{ 'admin-pill' if user.role=='admin' else 'analyst-pill' }}">{{ user.role|capitalize }}</span></td><td>{{ 'Yes' if user.is_active else 'No' }}</td><td>{{ user.created_at }}</td><td><form method="post" action="{{ url_for('update_user', user_id=user.id) }}" class="user-edit-form"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><select class="form-select form-select-sm" name="role" aria-label="Role for {{ user.username }}"><option value="analyst" {% if user.role=='analyst' %}selected{% endif %}>Analyst</option><option value="admin" {% if user.role=='admin' %}selected{% endif %}>Admin</option></select><select class="form-select form-select-sm" name="is_active" aria-label="Active status for {{ user.username }}"><option value="1" {% if user.is_active %}selected{% endif %}>Active</option><option value="0" {% if not user.is_active %}selected{% endif %}>Inactive</option></select><button class="btn btn-sm btn-outline-light">Save</button></form></td></tr>{% else %}<tr><td colspan="6" class="empty-state">No user accounts found.</td></tr>{% endfor %}
+</tbody></table></div></div>
+{% endblock %}

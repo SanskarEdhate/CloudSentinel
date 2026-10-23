@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}New incident · CloudSentinel{% endblock %}
+{% block heading %}Create incident{% endblock %}
+{% block content %}
+<div class="form-page"><div class="section-heading"><div><h1>Report a security incident</h1><p>Capture the key details for investigation and tracking.</p></div><a class="btn btn-quiet" href="{{ url_for('incidents') }}">Cancel</a></div>
+<div class="form-panel"><form method="post">
+  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+  <label class="form-label" for="title">Incident title *</label><input class="form-control" id="title" name="title" maxlength="180" required value="{{ incident.title if incident else '' }}" placeholder="e.g. Repeated failed login attempts">
+  <div class="row mt-3"><div class="col-md-6"><label class="form-label" for="category">Category *</label><select class="form-select" id="category" name="category" required><option value="">Select category</option>{% for c in categories %}<option value="{{ c }}" {% if incident and incident.category==c %}selected{% endif %}>{{ c }}</option>{% endfor %}</select></div>
+    <div class="col-md-6"><label class="form-label" for="severity">Severity *</label><select class="form-select" id="severity" name="severity" required>{% for s in severities %}<option value="{{ s }}" {% if (incident and incident.severity==s) or (not incident and s=='Medium') %}selected{% endif %}>{{ s }}</option>{% endfor %}</select></div></div>
+  <div class="row mt-3"><div class="col-md-6"><label class="form-label" for="assigned_to">Assigned analyst</label><select class="form-select" id="assigned_to" name="assigned_to"><option value="">Unassigned</option>{% for user in analysts %}<option value="{{ user.id }}" {% if incident and incident.assigned_to==user.id %}selected{% endif %}>{{ user.username }}</option>{% endfor %}</select></div>
+    <div class="col-md-6"><label class="form-label" for="detection_at">Detected at</label><input class="form-control" id="detection_at" type="datetime-local" name="detection_at" value="{{ incident.detection_at if incident and incident.detection_at else '' }}"></div></div>
+  <label class="form-label mt-3" for="affected_resource">Affected resource or service</label><input class="form-control" id="affected_resource" name="affected_resource" maxlength="255" value="{{ incident.affected_resource if incident else '' }}" placeholder="e.g. production-api / AWS account alias">
+  <label class="form-label mt-3" for="description">Description *</label><textarea class="form-control" id="description" name="description" rows="6" maxlength="10000" required placeholder="What happened? Include relevant timestamps, affected resources, and observed behaviour.">{{ incident.description if incident else '' }}</textarea>
+  <div class="form-actions"><span class="muted small">Required fields are marked with *</span><button class="btn btn-primary">Create incident →</button></div>
+</form></div></div>
+{% endblock %}

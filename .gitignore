@@ -1,0 +1,19 @@
+.env
+data_cache/
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.coverage
+htmlcov/
+instance/
+*.sqlite
+*.sqlite3
+*.db
+uploads/*
+!uploads/.gitkeep
+*.log
+.vscode/
+# Preserved original nested starter; the canonical project root is this directory.
+CloudSentinel/

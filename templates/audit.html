@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+{% block title %}Audit trail · CloudSentinel{% endblock %}
+{% block heading %}Audit trail{% endblock %}
+{% block content %}
+<div class="welcome-row"><div><h1>Audit trail</h1><p>Recent recorded user and incident actions. Administrator access only.</p></div></div>
+<div class="table-panel"><div class="table-responsive"><table class="table align-middle mb-0"><thead><tr><th>Action</th><th>Entity</th><th>Details</th><th>User</th><th>Timestamp</th></tr></thead><tbody>{% for log in logs %}<tr><td><span class="action-tag">{{ log.action }}</span></td><td>{{ log.entity_type or '—' }}{% if log.entity_id %} #{{ log.entity_id }}{% endif %}</td><td>{{ log.details }}</td><td>{{ log.username or 'System' }}</td><td>{{ log.created_at }}</td></tr>{% else %}<tr><td colspan="5" class="empty-state">No audit entries yet.</td></tr>{% endfor %}</tbody></table></div></div>
+{% endblock %}

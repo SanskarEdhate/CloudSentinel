@@ -1,0 +1,15 @@
+.breakdown-row{display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid #29364c}
+.breakdown-row:last-of-type{border-bottom:0}
+.breakdown-row strong{font-family:'Space Grotesk',sans-serif;font-size:18px}
+.breakdown-grid{margin-bottom:24px}
+.incident-update-form{display:grid;grid-template-columns:1fr 1fr;gap:12px;border-top:1px solid #26354c;padding-top:20px}
+.incident-update-form textarea,.incident-update-form button{grid-column:1/-1}
+.user-edit-form{display:flex;align-items:center;gap:7px;min-width:250px}
+.user-edit-form select{min-width:85px}
+.btn-danger{background:#bd3f55;border-color:#bd3f55;color:#fff}
+.btn-danger:hover{background:#a83147;border-color:#a83147}
+.form-control[type=file]{padding:.55rem}
+.form-control[type=file]::file-selector-button{background:#263a59;color:#e9effa;border:0;border-radius:5px;padding:6px 10px;margin-right:10px}
+.table-panel{max-width:100%}
+a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid #83b6ff;outline-offset:2px}
+@media(max-width:720px){.incident-update-form{grid-template-columns:1fr}.incident-update-form>*{grid-column:1}.user-edit-form{flex-wrap:wrap}.user-edit-form select{flex:1}}

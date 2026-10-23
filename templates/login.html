@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}Sign in · CloudSentinel{% endblock %}
+{% block auth_content %}
+<div class="login-wrap">
+  <div class="login-brand"><span class="brand-mark">C</span><div><b>CloudSentinel</b><small>SECURITY OPERATIONS PLATFORM</small></div></div>
+  <div class="login-card"><div class="login-icon">⌁</div><h1>Welcome back</h1><p class="muted">Sign in to your security workspace.</p>
+    <form method="post">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+      <label class="form-label" for="username">Username</label><input class="form-control" id="username" name="username" autocomplete="username" required autofocus>
+      <label class="form-label mt-3" for="password">Password</label><input class="form-control" id="password" type="password" name="password" autocomplete="current-password" required>
+      <button class="btn btn-primary w-100 mt-4">Sign in <span class="ms-2">→</span></button>
+    </form>
+    <div class="login-note">Authorized users only. Access is role-controlled.</div>
+  </div>
+  <div class="login-footer">CLOUDSENTINEL <span>•</span> INCIDENT RESPONSE WORKSPACE</div>
+</div>
+{% endblock %}
